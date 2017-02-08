@@ -1,3 +1,6 @@
+#define INST_MEM_START 0x04000000
+#define DATA_MEM_START 0x10000000
+
 typedef enum {
   false,
   true
@@ -121,6 +124,47 @@ typedef struct {
   ALU_MSB *alumsb1;
 } ALU32;
 
+typedef struct {
+int val;
+Path *wctl;
+Bus *wdata;
+Bus *rdata;
+} Register;
+
+typedef struct {
+Bus *a;
+Bus *b;
+} Decoder5;
+
+typedef struct {
+Bus *ctls;
+Bus *ins;
+Bus *out1;
+} MUX32_Bus;
+
+typedef struct {
+ANDGate *agates;
+Register *regs;
+Decoder5 *dec;
+MUX32_Bus *mux1;
+MUX32_Bus *mux2;
+} RegisterFile;
+
+typedef struct {
+int *mem;
+Bus *addr;
+Bus *inst;
+} InstMemory;
+
+typedef struct {
+int *mem;
+Path *memWrite;
+Path *memRead;
+Bus *addr;
+Bus *wdata;
+Bus *rdata;
+} DataMemory;
+
 void path_set_signal(Path *p, Signal s);
 Signal path_get_signal(Path *p);
 void path_init(Path *p);
@@ -211,3 +255,21 @@ void alu32_init(ALU32 *alu32, Path *op, Bus *a, Bus *b, Bus *s, Path *carryOut);
 void alu32_run(ALU32 *alu32);
 void alu32_driver(int an, int bn, int cn,int dn, int en);
 void alu32_release(ALU32 *alu32);
+
+void register_init(Register *reg, Path *wctl, Bus *wdata, Bus *rdata);
+void register_run(Register *reg);
+void register_set_value(Register *reg, int v);
+int register_get_value(Register *reg);
+
+void decoder5_init(Decoder5 *d, Bus *a, Bus *b);
+void decoder5_run(Decoder5 *d);
+
+void mux32_bus_init(MUX32_Bus *mb, Bus *ctls, Bus *ins, Bus *out1);
+void mux32_bus_run(MUX32_Bus *mb);
+
+void registerfile_init(RegisterFile *regfile, Path *regWrite, Bus *read1, Bus *read2, Bus *write1, Bus *wdata, Bus *rdata1, Bus *rdata2);
+void registerfile_run(RegisterFile *regfile);
+void registerfile_release(RegisterFile *regfile);
+void registerfile_set_value(RegisterFile *regfile, int reg_num, int val);
+int registerfile_get_value(RegisterFile *regfile, int reg_num);
+void registerfile_test()
