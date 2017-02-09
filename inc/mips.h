@@ -272,4 +272,9 @@ void registerfile_run(RegisterFile *regfile);
 void registerfile_release(RegisterFile *regfile);
 void registerfile_set_value(RegisterFile *regfile, int reg_num, int val);
 int registerfile_get_value(RegisterFile *regfile, int reg_num);
-void registerfile_test()
+void registerfile_test();
+
+void inst_memory_init(InstMemory *im, Bus *addr, Bus *inst);
+void inst_memory_run(InstMemory *im);
+void inst_memory_release();
+void inst_memory_test();

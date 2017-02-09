@@ -66,5 +66,8 @@ int main(int argc, char **argv) {
 
   printf("ALU32\n");
   alu32_driver(3, 1, 1, 1, 1); //(a, b, op[0], op[1], Bin)
+
+  registerfile_test();
+  inst_memory_test();
   return 0;
 }
