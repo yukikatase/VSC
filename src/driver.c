@@ -69,5 +69,6 @@ int main(int argc, char **argv) {
 
   registerfile_test();
   inst_memory_test();
+  data_memory_test();
   return 0;
 }

@@ -276,5 +276,10 @@ void registerfile_test();
 
 void inst_memory_init(InstMemory *im, Bus *addr, Bus *inst);
 void inst_memory_run(InstMemory *im);
-void inst_memory_release();
+void inst_memory_release(InstMemory *im);
 void inst_memory_test();
+
+void data_memory_init(DataMemory *dm, Path *memWrite, Path *memRead, Bus *addr, Bus *wdata, Bus *rdata);
+void data_memory_run(DataMemory *dm);
+void data_memory_release(DataMemory *dm);
+void data_memory_test();

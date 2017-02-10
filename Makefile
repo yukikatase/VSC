@@ -14,7 +14,7 @@ OBJS_BUS = $(OBJ)/bus.o
 OBJS_RCA =  $(OBJ)/rca.o
 OBJS_CLA = $(OBJ)/pfa.o $(OBJ)/clu.o $(OBJ)/cla4.o
 OBJS_ALU = $(OBJ)/mux.o $(OBJ)/mux4.o $(OBJ)/alu.o $(OBJ)/alu_msb.o $(OBJ)/alu32.o
-OBJS_REG =  $(OBJ)/register.o $(OBJ)/decoder5.o $(OBJ)/mux32.o $(OBJ)/register_file.o $(OBJ)/inst_memory.o
+OBJS_REG =  $(OBJ)/register.o $(OBJ)/decoder5.o $(OBJ)/mux32.o $(OBJ)/register_file.o $(OBJ)/inst_memory.o $(OBJ)/data_memory.o
 OBJS_DRIVER = $(OBJS_GATE) $(OBJS_CIRCUIT) $(OBJS_FADRIVER) $(OBJS_BUS) $(OBJS_RCA) $(OBJS_CLA) $(OBJS_ALU) $(OBJS_REG) $(OBJ)/driver.o
 
 all :

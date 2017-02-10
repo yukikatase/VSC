@@ -27,7 +27,9 @@ void inst_memory_set_inst(InstMemory *im, int addr, int inst) {
     im->mem[addr - INST_MEM_START] = inst;
 }
 
-void inst_memory_release() {}
+void inst_memory_release(InstMemory *im) {
+    free(im->mem);
+}
 
 void inst_memory_test() {
     Bus addr, inst;
