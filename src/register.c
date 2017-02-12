@@ -24,8 +24,9 @@ void register_run(Register *reg) {
 // 次の演習で使います
 
 void register_set_value(Register *reg, int v) {
-reg->val = v;
-}
+    reg->val = v;
+    }
+
 int register_get_value(Register *reg) {
-return reg->val;
+    return reg->val;
 }

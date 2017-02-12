@@ -70,5 +70,8 @@ int main(int argc, char **argv) {
   registerfile_test();
   inst_memory_test();
   data_memory_test();
+
+  int inst = 0x012a4020; 
+  mips_test(inst);
   return 0;
 }

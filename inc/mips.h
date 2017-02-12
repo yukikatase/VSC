@@ -165,6 +165,48 @@ Bus *wdata;
 Bus *rdata;
 } DataMemory;
 
+typedef struct {
+Register *reg;
+} PC;
+
+typedef struct {
+Bus *in1;
+Bus *out1;
+Bus *out2;
+Bus *out3;
+Bus *out4;
+Bus *out5;
+} SplitBus;
+
+typedef struct {
+Path *in1;
+Path *out1;
+Path *out2;
+} DUP;
+
+typedef struct {
+NOTGate *ngates;
+ANDGateN *agatens;
+ORGate *ogates;
+DUP *dups;
+} ControlUnit;
+
+typedef struct {
+ORGate *ogates;
+ANDGate *agates;
+NOTGate *ngates;
+} ALUControlUnit;
+
+typedef struct {
+PC *pc;
+InstMemory *im;
+SplitBus *sb;
+ControlUnit *cu;
+ALUControlUnit *acu;
+RegisterFile *regfile;
+ALU32 *alu;
+} MIPS;
+
 void path_set_signal(Path *p, Signal s);
 Signal path_get_signal(Path *p);
 void path_init(Path *p);
@@ -276,6 +318,7 @@ void registerfile_test();
 
 void inst_memory_init(InstMemory *im, Bus *addr, Bus *inst);
 void inst_memory_run(InstMemory *im);
+void inst_memory_set_inst(InstMemory *im, int addr, int inst);
 void inst_memory_release(InstMemory *im);
 void inst_memory_test();
 
@@ -283,3 +326,26 @@ void data_memory_init(DataMemory *dm, Path *memWrite, Path *memRead, Bus *addr, 
 void data_memory_run(DataMemory *dm);
 void data_memory_release(DataMemory *dm);
 void data_memory_test();
+
+void pc_init(PC *pc, Bus *npaddr, Bus *paddr);
+void pc_set_value(PC *pc, int addr);
+void pc_run(PC *pc);
+void pc_release(PC *pc);
+
+void split_bus_init(SplitBus *sb, Bus *in1, Bus *out1, Bus *out2, Bus *out3, Bus *out4, Bus *out5);
+void split_bus_run(SplitBus *sb);
+
+void dup_init(DUP *d, Path *in1, Path *out1, Path *out2);
+void dup_run(DUP *d);
+
+void control_unit_init(ControlUnit *cu, Bus *opcode, Path *regDst, Path *aluSrc, Path *memToReg, Path *regWrite, Path *memWrite, Path *memRead, Path *branch, Path *aluOp);
+void control_unit_run(ControlUnit *cu);
+void control_unit_release(ControlUnit *cu);
+
+void alu_control_unit_init(ALUControlUnit *acu, Bus *funct, Path *aluop, Path *op);
+void alu_control_unit_run(ALUControlUnit *acu);
+void alu_control_unit_release(ALUControlUnit *acu);
+
+void mips_init(MIPS *mips, int inst);
+void mips_run(MIPS *mips);
+void mips_test(int inst);
