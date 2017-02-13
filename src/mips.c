@@ -54,7 +54,7 @@ void mips_init(MIPS *mips, int inst) {
     Bus *rdata1, *rdata2, *wdata;
     rdata1 = (Bus *)malloc(sizeof(Bus)), bus_init(rdata1, 32);
     rdata2 = (Bus *)malloc(sizeof(Bus)); bus_init(rdata2, 32);
-    wdata = (Bus *)malloc(sizeof(Bus)); bus_init(wdata, 32);    
+    wdata = (Bus *)malloc(sizeof(Bus)); bus_init(wdata, 32);
     registerfile_init(mips->regfile, regWrite, sb2125, sb1620, sb1115, wdata, rdata1, rdata2);
 
     mips->alu = (ALU32 *)malloc(sizeof(ALU32));

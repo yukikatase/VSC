@@ -22,7 +22,7 @@ void control_unit_init(ControlUnit *cu, Bus *opcode, Path *regDst, Path *aluSrc,
     // //andgateの接続開始
     Path **p1;
     p1 = (Path **)malloc(sizeof(Path*) * 6);
-    for(i = 0; i < 6; i ++){
+    for(i = 0; i < 6; i++){
         p1[i] = path_hanten + i;
     }
 
@@ -66,15 +66,17 @@ void control_unit_init(ControlUnit *cu, Bus *opcode, Path *regDst, Path *aluSrc,
 
 
     cu->ogates = (ORGate *)malloc(sizeof(ORGate) * 2);
-    path_set_signal(regDst, path_get_signal(and_out));
+    regDst = and_out;
     orgate_init(cu->ogates, and_out + 1, and_out + 2, aluSrc);
-    path_set_signal(memToReg, path_get_signal(and_out + 1));
+    memToReg = and_out + 1;
     orgate_init(cu->ogates + 1, and_out, and_out + 1, regWrite);
-    path_set_signal(memRead, path_get_signal(and_out + 1));
-    path_set_signal(regWrite, path_get_signal(and_out + 2));
-    path_set_signal(branch, path_get_signal(and_out + 3));
-    path_set_signal(aluOp, path_get_signal(and_out + 3));
-    path_set_signal(aluOp + 1, path_get_signal(and_out));
+    memRead = and_out + 1;
+    regWrite = and_out + 2;
+    branch = and_out + 3;
+    aluOp = and_out + 3;
+
+    Path *a = aluOp + 1;
+    a = and_out;
 }
 
 void control_unit_run(ControlUnit *cu) {
@@ -91,6 +93,9 @@ void control_unit_run(ControlUnit *cu) {
     for(i = 0; i < 2; i++){
         orgate_run(cu->ogates + i);
     }
+    printf("regWrite %d\n", path_get_signal(cu->ogates[1].out1));
+    printf("aluOp0 %d\n", path_get_signal(cu->agatens[3].out1));
+    printf("aluOp1 %d\n", path_get_signal(cu->agatens->out1));
 }
 
 void control_unit_release(ControlUnit *cu) {
