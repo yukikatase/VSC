@@ -17,11 +17,11 @@ void alu_control_unit_init(ALUControlUnit *acu, Bus *funct, Path *aluop, Path *o
     acu->agates = (ANDGate *)malloc(sizeof(ANDGate) * 2);
     acu->ngates = (NOTGate *)malloc(sizeof(NOTGate) * 2);
 
-    orgate_init(acu->ogates + 0, bus_get_path(funct, 3), bus_get_path(funct, 1), opath);
+    orgate_init(acu->ogates + 0, bus_get_path(funct, 3), bus_get_path(funct, 0), opath);
     orgate_init(acu->ogates + 1, aluop, apath, op + 2);
     orgate_init(acu->ogates + 2, npath, npath + 1, op + 1);
 
-    andgate_init(acu->agates + 0, aluop + 1, bus_get_path(funct, 1), apath);
+    andgate_init(acu->agates, aluop + 1, bus_get_path(funct, 1), apath);
     andgate_init(acu->agates + 1, aluop + 1, opath, op);
 
     notgate_init(acu->ngates + 0, aluop + 1, npath);
@@ -37,7 +37,11 @@ void alu_control_unit_run(ALUControlUnit *acu) {
     orgate_run(acu->ogates + 2);
     orgate_run(acu->ogates);
     andgate_run(acu->agates + 1);
-    printf("acuout %d %d %d\n", path_get_signal(acu->ogates[1].out1), path_get_signal(acu->ogates[2].out1), path_get_signal(acu->agates[1].out1));
+    printf("\naluunit\n");
+    printf("funct1 %d\n", path_get_signal(acu->agates->in2));
+    printf("agate0 out %d\n", path_get_signal(acu->agates->out1));
+    printf("aluOp1 %d\n", path_get_signal(acu->agates->in1));
+    printf("acuout op[0]:%d op[1]:%d op[2]:%d\n", path_get_signal(acu->agates[1].out1), path_get_signal(acu->ogates[2].out1), path_get_signal(acu->ogates[1].out1));
 }
 
 void alu_control_unit_release(ALUControlUnit *acu) {

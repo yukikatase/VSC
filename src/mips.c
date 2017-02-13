@@ -67,9 +67,9 @@ void mips_init(MIPS *mips, int inst) {
     //メモリに命令を格納 例) add $t0, $t1, $t2 => 0x012a4020
     inst_memory_set_inst(mips->im, INST_MEM_START, inst);
     // //$t1(9番レジスタ)に0x100を代入
-    registerfile_set_value(mips->regfile, 9, 0x100);
+    registerfile_set_value(mips->regfile, 9, 0x300);
     //$t2(10番レジスタ)に0x300を代入
-    registerfile_set_value(mips->regfile, 10, 0x300);
+    registerfile_set_value(mips->regfile, 10, 0x100);
 }
 
 void mips_run(MIPS *mips) {
@@ -77,6 +77,8 @@ void mips_run(MIPS *mips) {
     inst_memory_run(mips->im);
     split_bus_run(mips->sb);
     control_unit_run(mips->cu);
+    printf("\naluop1 %d\n", path_get_signal(mips->cu->dups->out2));
+    printf("\naluop1 %d\n", path_get_signal(mips->acu->agates->in1));    
     alu_control_unit_run(mips->acu);
     registerfile_run(mips->regfile);
     alu32_run(mips->alu);

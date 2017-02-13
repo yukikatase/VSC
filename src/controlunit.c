@@ -66,17 +66,15 @@ void control_unit_init(ControlUnit *cu, Bus *opcode, Path *regDst, Path *aluSrc,
 
 
     cu->ogates = (ORGate *)malloc(sizeof(ORGate) * 2);
-    regDst = and_out;
     orgate_init(cu->ogates, and_out + 1, and_out + 2, aluSrc);
     memToReg = and_out + 1;
     orgate_init(cu->ogates + 1, and_out, and_out + 1, regWrite);
     memRead = and_out + 1;
-    regWrite = and_out + 2;
-    branch = and_out + 3;
-    aluOp = and_out + 3;
+    memWrite = and_out + 2;
 
-    Path *a = aluOp + 1;
-    a = and_out;
+    cu->dups = (DUP *)malloc(sizeof(DUP) * 2);
+    dup_init(cu->dups, and_out, regDst, aluOp + 1);
+    dup_init(cu->dups + 1, and_out + 3, branch, aluOp);
 }
 
 void control_unit_run(ControlUnit *cu) {
@@ -93,9 +91,12 @@ void control_unit_run(ControlUnit *cu) {
     for(i = 0; i < 2; i++){
         orgate_run(cu->ogates + i);
     }
+    dup_run(cu->dups);
+    dup_run(cu->dups + 1);    
+    printf("controlunit\n");
     printf("regWrite %d\n", path_get_signal(cu->ogates[1].out1));
     printf("aluOp0 %d\n", path_get_signal(cu->agatens[3].out1));
-    printf("aluOp1 %d\n", path_get_signal(cu->agatens->out1));
+    printf("aluOp1 %d\n", path_get_signal(cu->dups->out2));
 }
 
 void control_unit_release(ControlUnit *cu) {

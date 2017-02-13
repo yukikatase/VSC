@@ -73,5 +73,13 @@ int main(int argc, char **argv) {
 
   int inst = 0x012a4020; 
   mips_test(inst);
+  inst = 0x012a4022;
+  mips_test(inst);
+  // inst = 0x012a4024;
+  // mips_test(inst);  
+  // inst = 0x012a4025;
+  // mips_test(inst);  
+  // inst = 0x012a402a;
+  // mips_test(inst);    
   return 0;
 }
