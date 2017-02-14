@@ -93,10 +93,6 @@ void control_unit_run(ControlUnit *cu) {
     }
     dup_run(cu->dups);
     dup_run(cu->dups + 1);    
-    printf("controlunit\n");
-    printf("regWrite %d\n", path_get_signal(cu->ogates[1].out1));
-    printf("aluOp0 %d\n", path_get_signal(cu->agatens[3].out1));
-    printf("aluOp1 %d\n", path_get_signal(cu->dups->out2));
 }
 
 void control_unit_release(ControlUnit *cu) {

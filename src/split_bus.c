@@ -21,7 +21,7 @@ void split_bus_run(SplitBus *sb) {
     for (i = 0; i <= 5; i++) {
         path_set_signal(bus_get_path(sb->out1, i), path_get_signal(bus_get_path(sb->in1, i)));
     }
-    printf("path05   %d\n", bus_get_value(sb->out1));
+
 
     // out2: 11-15
     for (i = 11; i <= 15; i++) {
